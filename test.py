@@ -12,4 +12,13 @@ interface.PlayPause()
 
 props_iface = dbus.Interface(bus_object, dbus_interface='org.freedesktop.DBus.Properties')
 props = props_iface.GetAll("org.mpris.MediaPlayer2.Player")
-print("hemm")
+metadata = props.get('Metadata')
+artist = metadata.get('xesam:artist')
+title = metadata.get('xesam:title')
+print(artist)
+print(title)
+
+def handler(sender=None):
+    print ("got signal from %r" % sender)
+
+interface.connect_to_signal("Seeked", handler, sender_keyword='sender')
