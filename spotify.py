@@ -23,7 +23,7 @@ def init():
     def handler(sender=None):
         """handler"""
         print("got signal from %r" % sender)
-    
+
     interface.connect_to_signal(None, handler, sender_keyword='sender')
     print("interface connected to Seeked signal, now loop")
     try:
@@ -31,26 +31,6 @@ def init():
     except KeyboardInterrupt:
         loop.quit()
 
-
-def get_info():
-    """main"""
-    bus = dbus.SessionBus()
-
-    bus_object = bus.get_object(BUSNAME, PATH)
-    interface = dbus.Interface(bus_object, dbus_interface=INTERFACENAME)
-    interface.PlayPause()
-
-    props_iface = dbus.Interface(bus_object, dbus_interface='org.freedesktop.DBus.Properties')
-    props = props_iface.GetAll("org.mpris.MediaPlayer2.Player")
-    metadata = props.get('Metadata')
-    artist = metadata.get('xesam:artist')
-    title = metadata.get('xesam:title')
-    print(artist)
-    print(title)
-
-def handler2():
-    """handler"""
-    print("got signal")
 
 if __name__ == "__main__":
     init()

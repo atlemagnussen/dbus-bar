@@ -13,7 +13,7 @@ def test():
     bus_object = bus.get_object(BUSNAME, PATH)
     interface = dbus.Interface(bus_object, dbus_interface=INTERFACENAME)
     interface.PlayPause()
-    
+
     props_iface = dbus.Interface(bus_object, dbus_interface='org.freedesktop.DBus.Properties')
     props = props_iface.GetAll("org.mpris.MediaPlayer2.Player")
     metadata = props.get('Metadata')
