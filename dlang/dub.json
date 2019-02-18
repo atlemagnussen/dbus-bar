@@ -1,3 +1,12 @@
-"dependencies": {
-  "ddbus": "~>2.3.0"
+{
+	"authors": [
+		"atle"
+	],
+	"copyright": "Copyright © 2019, atle",
+	"dependencies": {
+		"ddbus": "~>2.3.0"
+	},
+	"description": "bar for dwm using dbus mostly",
+	"license": "isc",
+	"name": "dbus-bar"
 }

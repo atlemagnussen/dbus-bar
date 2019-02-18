@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/dbus-bar
+dbus-bar.so
+dbus-bar.dylib
+dbus-bar.dll
+dbus-bar.a
+dbus-bar.lib
+dbus-bar-test-*
+*.exe
+*.o
+*.obj
+*.lst

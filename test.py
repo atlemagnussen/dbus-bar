@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Testing dbus with spotify"""
+import os
 import dbus
 
 BUSNAME = 'org.mpris.MediaPlayer2.spotify'
@@ -19,8 +20,9 @@ def test():
     metadata = props.get('Metadata')
     artist = metadata.get('xesam:artist')
     title = metadata.get('xesam:title')
-    print(artist)
+    print(artist[0])
     print(title)
+    # os.system("xsetroot" + " -name " + title)
 
 if __name__ == "__main__":
     test()
