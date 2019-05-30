@@ -3,8 +3,11 @@
 """Testing dbus with pulseaudio"""
 import os
 import dbus
+# import math
 from dbus.mainloop.glib import DBusGMainLoop
 from gi.repository import GLib
+
+from helpers import status_state
 
 SERVICE = 'org.PulseAudio1'
 LPATH = '/org/pulseaudio/server_lookup1'
@@ -15,6 +18,8 @@ IFACE = 'org.PulseAudio.Core1'
 STATSIG = 'StateUpdated'
 VOLSIG = 'VolumeUpdated'
 MUTESIG = 'MuteUpdated'
+
+STATE = status_state.Status()
 
 def pulse_bus_address():
     """address"""
@@ -40,11 +45,12 @@ def sig_handler_state(state):
 
 def sig_handler_vol(vol):
     """handler"""
-    print("Volume changed to %s" % vol)
+    perc = (vol[0] / 65536) * 100
+    STATE.set_vol(round(perc))
 
 def sig_handler_mute(muted):
     """handler"""
-    print("Mute changed to %s" % muted)
+    STATE.set_vol_muted(muted)
 
 def init():
     """init"""
