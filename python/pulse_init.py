@@ -5,7 +5,7 @@ import os
 import dbus
 
 BUSNAME = 'org.PulseAudio1'
-PATH = '/org/pulseaudio/server_lookup1'
+PATH = '/org/mpris/MediaPlayer2'
 INTERFACENAME = 'org.mpris.MediaPlayer2.Player'
 
 def test():
@@ -15,8 +15,7 @@ def test():
     interface = dbus.Interface(bus_object, dbus_interface=INTERFACENAME)
     # interface.PlayPause()
 
-    props_iface = dbus.Interface(bus_object, 
-                    dbus_interface='org.freedesktop.DBus.Properties')
+    props_iface = dbus.Interface(bus_object, dbus_interface='org.freedesktop.DBus.Properties')
     props = props_iface.GetAll(INTERFACENAME)
     metadata = props.get('Metadata')
     artist = metadata.get('xesam:artist')
