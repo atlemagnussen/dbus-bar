@@ -60,7 +60,7 @@ def init():
     pulse_core.ListenForSignal(MAIN + '.' + STATSIG, dbus.Array(signature='o'), dbus_interface=IFACE)
     pulse_core.ListenForSignal(MAIN + '.' + VOLSIG, dbus.Array(signature='o'), dbus_interface=IFACE)
     pulse_core.ListenForSignal(MAIN + '.' + MUTESIG, dbus.Array(signature='o'), dbus_interface=IFACE)
-    interface = dbus.Interface(pulse_bus, dbus_interface='org.PulseAudio.Core1')
+    # interface = dbus.Interface(pulse_bus, dbus_interface='org.PulseAudio.Core1')
 
     loop = GLib.MainLoop()
 
