@@ -4,25 +4,38 @@
 import os
 import dbus
 
-BUSNAME = 'org.PulseAudio1'
-PATH = '/org/pulseaudio/server_lookup1'
+BUSNAME = 'org.mpris.MediaPlayer2.spotify'
+PATH = '/org/mpris/MediaPlayer2'
 INTERFACENAME = 'org.mpris.MediaPlayer2.Player'
 
-def test():
-    """test"""
+def get_bus_object(name, path):
+    """bus object"""
     bus = dbus.SessionBus()
-    bus_object = bus.get_object(BUSNAME, PATH)
-    interface = dbus.Interface(bus_object, dbus_interface=INTERFACENAME)
-    # interface.PlayPause()
+    return bus.get_object(name, path)
 
-    props_iface = dbus.Interface(bus_object, 
-                    dbus_interface='org.freedesktop.DBus.Properties')
-    props = props_iface.GetAll(INTERFACENAME)
+def get_interface(bus_obj, interfacename):
+    """interface"""
+    return dbus.Interface(bus_obj, dbus_interface=interfacename)
+
+def get_song(bus_obj):
+    props_iface = dbus.Interface(bus_obj, dbus_interface='org.freedesktop.DBus.Properties')
+    props = props_iface.GetAll("org.mpris.MediaPlayer2.Player")
     metadata = props.get('Metadata')
     artist = metadata.get('xesam:artist')
     title = metadata.get('xesam:title')
     print(artist[0])
     print(title)
+
+def test():
+    """test"""
+    try:
+        bus_obj = get_bus_object(BUSNAME, PATH)
+        get_song(bus_obj)
+        # interface = get_interface(bus_obj, INTERFACENAME)
+        # interface.PlayPause()
+    except Exception as ex:
+        print('Spotify not active probably')
+
     # os.system("xsetroot" + " -name " + title)
 
 if __name__ == "__main__":
