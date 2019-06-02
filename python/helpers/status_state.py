@@ -3,12 +3,14 @@
 from subprocess import call
 VOL_UCODE = u"\U0001F50A"
 VOL_MUTED_UCODE = u"\U0001F507"
-
+NETWORK_UCODE = u"\U0001F5A7"
 class Status:
     """status state"""
     def __init__(self):
         self.__vol = 0
         self.__vol_muted = False
+
+        self.__network = 'disconnected'
 
     def set_vol(self, vol):
         """setter vol"""
@@ -33,10 +35,19 @@ class Status:
         vol_state = f'{vol_state}{self.__vol}%'
         return vol_state
 
+    def set_network(self, network):
+        """set network"""
+        self.__network = network
+        self.set_bar()
+
+    def state_net(self):
+        return f'{NETWORK_UCODE}{self.__network}'
+
     def state(self):
         """get full state"""
         vol = self.state_vol()
-        return f'{vol}'
+        net = self.state_net()
+        return f'{vol} {net}'
 
     def set_bar(self):
         """set bar with state"""
