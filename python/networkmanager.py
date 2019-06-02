@@ -19,9 +19,9 @@ def init():
         bus_obj = get_bus_object("org.freedesktop.NetworkManager", "/org/freedesktop/NetworkManager")
         interface = dbus.Interface(bus_obj, dbus_interface="org.freedesktop.NetworkManager")
         # bus.add_signal_receiver(sig_handler, "StateChanged", dbus_interface=interface)
-        interface.connect_to_signal(None, sig_handler, sender_keyword='sender')
+        interface.connect_to_signal("StateChanged", sig_handler, dbus_interface=interface, sender_keyword='sender')
         # bus_obj.ListenForSignal("org.freedesktop.NetworkManager.StateChanged", dbus.Array(signature='o'), dbus_interface="org.freedesktop.NetworkManager")
-        # bus_obj.add_signal_receiver(sig_handler, "StateChanged")
+        bus_obj.add_signal_receiver(sig_handler, "StateChanged")
 
     except Exception as ex:
         print('Network manager not active probably')
@@ -30,7 +30,7 @@ def init():
 
 def sig_handler(sender=None):
     """handler"""
-    print(sender)
+    print("signal received")
 
 def get_bus_object(name, path):
     """bus object"""
