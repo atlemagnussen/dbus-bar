@@ -1,19 +1,26 @@
 """upower dbus"""
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import dbus
 from time import sleep
+from threading import Thread
+import dbus
 from helpers import status_state
 
 STATE = status_state.Status.get_instance()
 
-def init():
-    """init"""
-    while True:
-        bat = get_state()
-        STATE.set_bat(bat)
-        sleep(10)
+class Power(Thread):
+    """power class"""
+    def __init__(self):
+        Thread.__init__(self)
+        self.name = "Time thread"
+        self.daemon = True
 
+    def run(self):
+        """run"""
+        while True:
+            bat = get_state()
+            STATE.set_bat(bat)
+            sleep(10)
 
 def get_state():
     """battery state"""
@@ -28,7 +35,3 @@ def get_state():
     else:
         charge = '-'
     return f'{perc}%{charge}'
-
-
-if __name__ == "__main__":
-    print(get_state())

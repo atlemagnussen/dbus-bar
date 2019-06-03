@@ -15,8 +15,10 @@ def init():
     pulse_audio = pulse.PulseAudio()
     pulse_audio.initial_volume()
     networkmanager.init()
-    time.init()
-    power.init()
+    time_thread = time.Time()
+    time_thread.start()
+    power_thread = power.Power()
+    power_thread.start()
     try:
         print("now looping")
         loop.run()
