@@ -4,6 +4,10 @@ from subprocess import call
 VOL_UCODE = u"\U0001F50A"
 VOL_MUTED_UCODE = u"\U0001F507"
 NETWORK_UCODE = u"\U0001F5A7"
+POWER_UCODE = u"\U0001F5F2"
+TIME_UCODE = u"\U0001F550"
+
+
 class Status:
     """status state"""
     __instance = None
@@ -20,6 +24,7 @@ class Status:
         self.__vol_muted = False
         self.__network = 'disconnected'
         self.__time__ = ''
+        self.__bat__ = '00%-'
         if Status.__instance is not None:
             raise Exception("This class is a singleton!")
         else:
@@ -58,15 +63,30 @@ class Status:
         return f'{NETWORK_UCODE}{self.__network}'
 
     def set_time(self, time):
+        """time stat"""
         self.__time__ = time
         self.set_bar()
+
+    def set_bat(self, bat):
+        """bat set"""
+        self.__bat__ = bat
+        self.set_bar()
+
+    def state_time(self):
+        """time"""
+        return f'{TIME_UCODE}{self.__time__}'
+
+    def state_bat(self):
+        """bat"""
+        return f'{POWER_UCODE}{self.__bat__}'
 
     def state(self):
         """get full state"""
         vol = self.state_vol()
         net = self.state_net()
-        time = self.__time__
-        return f'{net} {vol} {time}'
+        bat = self.state_bat()
+        time = self.state_time()
+        return f'{net} {bat} {vol} {time}'
 
     def set_bar(self):
         """set bar with state"""
