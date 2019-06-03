@@ -12,8 +12,8 @@ def init():
     DBusGMainLoop(set_as_default=True)
     loop = GLib.MainLoop()
 
-    pulse_audio = pulse.Pulse()
-    pulse_audio.init()
+    pulse_audio = pulse.PulseAudio()
+    pulse_audio.initial_volume()
     networkmanager.init()
     try:
         print("now looping")

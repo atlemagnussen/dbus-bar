@@ -3,7 +3,7 @@
 """Testing dbus with pulseaudio"""
 import os
 import dbus
-from dbus.mainloop.glib import DBusGMainLoop
+from pulsectl import Pulse
 from helpers import status_state
 
 SERVICE = 'org.PulseAudio1'
@@ -18,26 +18,31 @@ MUTESIG = 'MuteUpdated'
 
 STATE = status_state.Status.get_instance()
 
-class Pulse:
+class PulseAudio:
     """pulse class"""
     def __init__(self):
-        self.pulse_bus = None
-    def init(self):
-        """init"""
+        self.pulse_bus = dbus.connection.Connection(self.pulse_bus_address())
         try:
             print("init pulse audio dbus")
-            self.pulse_bus = dbus.connection.Connection(self.pulse_bus_address())
             pulse_core = self.pulse_bus.get_object(object_path='/org/pulseaudio/core1')
             pulse_core.ListenForSignal(MAIN + '.' + STATSIG, dbus.Array(signature='o'), dbus_interface=IFACE)
             pulse_core.ListenForSignal(MAIN + '.' + VOLSIG, dbus.Array(signature='o'), dbus_interface=IFACE)
             pulse_core.ListenForSignal(MAIN + '.' + MUTESIG, dbus.Array(signature='o'), dbus_interface=IFACE)
-            # interface = dbus.Interface(pulse_bus, dbus_interface='org.PulseAudio.Core1')
 
             self.pulse_bus.add_signal_receiver(self.sig_handler_state, 'StateUpdated')
             self.pulse_bus.add_signal_receiver(self.sig_handler_vol, 'VolumeUpdated')
             self.pulse_bus.add_signal_receiver(self.sig_handler_mute, 'MuteUpdated')
         except Exception as ex:
             print(ex)
+
+    def initial_volume(self):
+        """initial volume and mute"""
+        pulse_ctl = Pulse()
+        sinks = pulse_ctl.sink_list()
+        sink = sinks[0]
+
+        STATE.set_vol_muted(sink.mute)
+        STATE.set_vol(round(sink.volume.value_flat * 100))
 
     def pulse_bus_address(self):
         """address"""

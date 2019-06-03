@@ -59,7 +59,7 @@ class Status:
         """get full state"""
         vol = self.state_vol()
         net = self.state_net()
-        return f'{vol} {net}'
+        return f'{net} {vol}'
 
     def set_bar(self):
         """set bar with state"""
