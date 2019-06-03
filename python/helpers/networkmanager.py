@@ -5,7 +5,7 @@
 import dbus
 from helpers import status_state
 
-STATE = status_state.Status()
+STATE = status_state.Status.get_instance()
 
 def init():
     """init network"""
