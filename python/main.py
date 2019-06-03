@@ -4,7 +4,7 @@
 
 from dbus.mainloop.glib import DBusGMainLoop
 from gi.repository import GLib
-from helpers import networkmanager, pulse
+from helpers import networkmanager, pulse, time
 
 def init():
     """init loop"""
@@ -15,6 +15,7 @@ def init():
     pulse_audio = pulse.PulseAudio()
     pulse_audio.initial_volume()
     networkmanager.init()
+    time.init()
     try:
         print("now looping")
         loop.run()

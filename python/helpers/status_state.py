@@ -19,6 +19,7 @@ class Status:
         self.__vol = 0
         self.__vol_muted = False
         self.__network = 'disconnected'
+        self.__time__ = ''
         if Status.__instance is not None:
             raise Exception("This class is a singleton!")
         else:
@@ -53,13 +54,19 @@ class Status:
         self.set_bar()
 
     def state_net(self):
+        """state net"""
         return f'{NETWORK_UCODE}{self.__network}'
+
+    def set_time(self, time):
+        self.__time__ = time
+        self.set_bar()
 
     def state(self):
         """get full state"""
         vol = self.state_vol()
         net = self.state_net()
-        return f'{net} {vol}'
+        time = self.__time__
+        return f'{net} {vol} {time}'
 
     def set_bar(self):
         """set bar with state"""
