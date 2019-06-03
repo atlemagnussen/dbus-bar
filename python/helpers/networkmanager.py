@@ -3,8 +3,26 @@
 # -*- coding: utf-8 -*-
 # from pydbus import SystemBus
 import dbus
-from dbus.mainloop.glib import DBusGMainLoop
-from gi.repository import GLib
+from helpers import status_state
+
+STATE = status_state.Status()
+
+def init():
+    """init network"""
+    sys_bus = dbus.SystemBus()
+    get_network_state(70)
+    sys_bus.add_signal_receiver(get_network_state, 'StateChanged', 'org.freedesktop.NetworkManager')
+
+def get_network_state(code):
+    """network state"""
+    print(f'statecode={code}')
+    if code <= 20:
+        network_state = "disconnected"
+    elif 20 < code < 70:
+        network_state = "connecting"
+    else:
+        network_state = get_state()
+    STATE.set_network(network_state)
 
 def get_bus_object(name, path):
     """bus object"""
@@ -56,5 +74,4 @@ def print_all_props(props):
         print(f'{prop}={val}')
 
 if __name__ == "__main__":
-    state = get_state()
-    print(state)
+    print(get_state())

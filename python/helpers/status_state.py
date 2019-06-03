@@ -6,11 +6,23 @@ VOL_MUTED_UCODE = u"\U0001F507"
 NETWORK_UCODE = u"\U0001F5A7"
 class Status:
     """status state"""
+    __instance = None
+    @staticmethod 
+    def get_instance():
+        """ Static access method. """
+        if Status.__instance is None:
+            Status()
+        return Status.__instance
+
     def __init__(self):
+        """ Virtually private constructor. """
         self.__vol = 0
         self.__vol_muted = False
-
         self.__network = 'disconnected'
+        if Status.__instance is not None:
+            raise Exception("This class is a singleton!")
+        else:
+            Status.__instance = self
 
     def set_vol(self, vol):
         """setter vol"""
