@@ -11,7 +11,7 @@ TIME_UCODE = u"\U0001F550"
 class Status:
     """status state"""
     __instance = None
-    @staticmethod 
+    @staticmethod
     def get_instance():
         """ Static access method. """
         if Status.__instance is None:
@@ -37,10 +37,7 @@ class Status:
 
     def set_vol_muted(self, muted):
         """set muted"""
-        if muted == 1:
-            self.__vol_muted = True
-        else:
-            self.__vol_muted = False
+        self.__vol_muted = bool(muted == 1)
         self.set_bar()
 
     def state_vol(self):
@@ -78,6 +75,8 @@ class Status:
 
     def state_bat(self):
         """bat"""
+        if self.__bat__ is None:
+            return None
         return f'{POWER_UCODE}{self.__bat__}'
 
     def state(self):
@@ -86,7 +85,11 @@ class Status:
         net = self.state_net()
         bat = self.state_bat()
         time = self.state_time()
-        return f'{net} {bat} {vol} {time}'
+        full_state = f'{net}'
+        if bat is not None:
+            full_state += f'{bat} '
+        full_state += f'{vol} {time} '
+        return full_state
 
     def set_bar(self):
         """set bar with state"""

@@ -67,6 +67,7 @@ def get_ip_address(path):
     return str(address[0].get('address'))
 
 def print_all_props(props):
+    """print props"""
     for prop in props:
         val = str(props.get(prop))
         print(f'{prop}={val}')
