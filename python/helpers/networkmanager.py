@@ -14,7 +14,6 @@ def init():
 
 def get_network_state(code):
     """network state"""
-    print(f'statecode={code}')
     if code <= 20:
         network_state = "disconnected"
     elif 20 < code < 70:
