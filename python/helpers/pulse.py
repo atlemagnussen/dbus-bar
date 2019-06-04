@@ -3,7 +3,7 @@
 """Testing dbus with pulseaudio"""
 import os
 import dbus
-from pulsectl import Pulse
+# from pulsectl import Pulse
 from helpers import status_state
 
 SERVICE = 'org.PulseAudio1'
@@ -35,14 +35,14 @@ class PulseAudio:
         except Exception as ex:
             print(ex)
 
-    def initial_volume(self):
-        """initial volume and mute"""
-        pulse_ctl = Pulse()
-        sinks = pulse_ctl.sink_list()
-        sink = sinks[0]
+    # def initial_volume(self):
+    #    """initial volume and mute"""
+    #    pulse_ctl = Pulse()
+    #    sinks = pulse_ctl.sink_list()
+    #    sink = sinks[0]
 
-        STATE.set_vol_muted(sink.mute)
-        STATE.set_vol(round(sink.volume.value_flat * 100))
+    #    STATE.set_vol_muted(sink.mute)
+    #    STATE.set_vol(round(sink.volume.value_flat * 100))
 
     def pulse_bus_address(self):
         """address"""

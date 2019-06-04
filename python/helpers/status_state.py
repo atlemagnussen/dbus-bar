@@ -7,7 +7,6 @@ NETWORK_UCODE = u"\U0001F5A7"
 POWER_UCODE = u"\U0001F5F2"
 TIME_UCODE = u"\U0001F550"
 
-
 class Status:
     """status state"""
     __instance = None
@@ -85,7 +84,7 @@ class Status:
         net = self.state_net()
         bat = self.state_bat()
         time = self.state_time()
-        full_state = f'{net}'
+        full_state = f'{net} '
         if bat is not None:
             full_state += f'{bat} '
         full_state += f'{vol} {time} '
