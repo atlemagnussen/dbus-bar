@@ -1,6 +1,8 @@
 # dbus bar
 So far only tested in [dwm](https://dwm.suckless.org/)
 
+![demo gif of dbus-bar](https://storage.googleapis.com/atle-static/dbus-bar-v.0.1.gif)
+
 only the python version is working  
 Not everything is done with dbus, but as much as possible
 
