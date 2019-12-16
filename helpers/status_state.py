@@ -2,12 +2,16 @@
 """module for status bar state"""
 from subprocess import call
 from sys import stdout
+import yaml
 
 VOL_UCODE = u"\U0001F50A"
 VOL_MUTED_UCODE = u"\U0001F507"
 NETWORK_UCODE = u"\U0001F5A7"
 POWER_UCODE = u"\U0001F5F2"
 TIME_UCODE = u"\U0001F550"
+
+with open("config.yml", 'r') as ymlfile:
+    CFG = yaml.load(ymlfile)
 
 class Status:
     """status state"""
@@ -26,6 +30,8 @@ class Status:
         self.__network = 'disconnected'
         self.__time__ = ''
         self.__bat__ = '00%-'
+        self.__cpu_ram_disk__ = ''
+
         if Status.__instance is not None:
             raise Exception("This class is a singleton!")
         else:
@@ -80,13 +86,22 @@ class Status:
             return None
         return f'{POWER_UCODE}{self.__bat__}'
 
+    def set_cpu_ram_disk_state(self, cpu_ram_disk):
+        """cpu_and_mem"""
+        self.__cpu_ram_disk__ = cpu_ram_disk
+
+    def cpu_ram_disk_state(self):
+        """cpu_ram_mem_state"""
+        return self.__cpu_ram_disk__
+
     def state(self):
-        """get full state"""
+        """get_full_state"""
         vol = self.state_vol()
         net = self.state_net()
         bat = self.state_bat()
         time = self.state_time()
-        full_state = f'{net} '
+        crd = self.cpu_ram_disk_state()
+        full_state = f'{crd} {net} '
         if bat is not None:
             full_state += f'{bat} '
         full_state += f'{vol} {time} '
@@ -96,7 +111,8 @@ class Status:
         """set bar with state"""
         status = self.state()
         self.write(status)
-        #call(['xsetroot', '-name', status], shell=False)
+        if CFG['writeToXRoot']:
+            call(['xsetroot', '-name', status], shell=False)
 
     def write(self, data):
         stdout.write('%s\n' % data)

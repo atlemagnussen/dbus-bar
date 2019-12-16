@@ -4,7 +4,7 @@
 
 from dbus.mainloop.glib import DBusGMainLoop
 from gi.repository import GLib
-from helpers import networkmanager, pulse, time, power
+from helpers import networkmanager, pulse, time, power, cpuramdisk
 
 def init():
     """init loop"""
@@ -19,6 +19,9 @@ def init():
     time_thread.start()
     power_thread = power.Power()
     power_thread.start()
+    cpuramdisk_thread = cpuramdisk.CpuRamDisk()
+    cpuramdisk_thread.start()
+
     try:
         #print("now looping")
         loop.run()
