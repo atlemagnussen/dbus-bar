@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """module for status bar state"""
 from subprocess import call
+from sys import stdout
+
 VOL_UCODE = u"\U0001F50A"
 VOL_MUTED_UCODE = u"\U0001F507"
 NETWORK_UCODE = u"\U0001F5A7"
@@ -93,5 +95,10 @@ class Status:
     def set_bar(self):
         """set bar with state"""
         status = self.state()
-        print(status)
+        self.write(status)
         #call(['xsetroot', '-name', status], shell=False)
+
+    def write(self, data):
+        stdout.write('%s\n' % data)
+        stdout.flush()
+
