@@ -2,6 +2,7 @@
 """module for status bar state"""
 from subprocess import call
 from sys import stdout
+import os
 import yaml
 
 VOL_UCODE = u"\U0001F50A"
@@ -10,7 +11,8 @@ NETWORK_UCODE = u"\U0001F5A7"
 POWER_UCODE = u"\U0001F5F2"
 TIME_UCODE = u"\U0001F550"
 
-with open("config.yml", 'r') as ymlfile:
+cwd = os.getcwd()
+with open(f'{cwd}/config.yml', 'r') as ymlfile:
     CFG = yaml.load(ymlfile)
 
 class Status:
