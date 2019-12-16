@@ -32,13 +32,13 @@ def get_interface(bus_obj, interfacename):
     return dbus.Interface(bus_obj, dbus_interface=interfacename)
 
 def get_state():
-    """test"""
+    """network manager state"""
     try:
         act_con_name = get_active_connection_name()
         ip4conf = get_connection(act_con_name)
         ip4add = get_ip_address(ip4conf)
         return ip4add
-    except Exception as ex:
+    except Exception:
         print('Network manager not active probably')
     return None
 

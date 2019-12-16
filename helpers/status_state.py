@@ -2,18 +2,22 @@
 """module for status bar state"""
 from subprocess import call
 from sys import stdout
-import os
-import yaml
+from helpers import config_bar
 
 VOL_UCODE = u"\U0001F50A"
 VOL_MUTED_UCODE = u"\U0001F507"
 NETWORK_UCODE = u"\U0001F5A7"
 POWER_UCODE = u"\U0001F5F2"
-TIME_UCODE = u"\U0001F550"
+#TIME_UCODE = u"\U0001F550"
+TIME_UCODE = "⌚"
 
-cwd = os.getcwd()
-with open(f'{cwd}/config.yml', 'r') as ymlfile:
-    CFG = yaml.load(ymlfile)
+CFG = config_bar.get_config()
+
+
+def write(data):
+    """write stdout"""
+    stdout.write('%s\n' % data)
+    stdout.flush()
 
 class Status:
     """status state"""
@@ -112,11 +116,6 @@ class Status:
     def set_bar(self):
         """set bar with state"""
         status = self.state()
-        self.write(status)
+        write(status)
         if CFG['writeToXRoot']:
             call(['xsetroot', '-name', status], shell=False)
-
-    def write(self, data):
-        stdout.write('%s\n' % data)
-        stdout.flush()
-
