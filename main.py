@@ -8,7 +8,7 @@ from helpers import networkmanager, pulse, time, power
 
 def init():
     """init loop"""
-    print('start up dbus-bar for dwm')
+    print('start up dbus-bar')
     DBusGMainLoop(set_as_default=True)
     loop = GLib.MainLoop()
 
@@ -20,7 +20,7 @@ def init():
     power_thread = power.Power()
     power_thread.start()
     try:
-        print("now looping")
+        #print("now looping")
         loop.run()
     except KeyboardInterrupt:
         print("keyboard interrupt")

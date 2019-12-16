@@ -94,4 +94,4 @@ class Status:
         """set bar with state"""
         status = self.state()
         print(status)
-        call(['xsetroot', '-name', status], shell=False)
+        #call(['xsetroot', '-name', status], shell=False)

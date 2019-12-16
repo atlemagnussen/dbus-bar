@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
+"""
+module for status bar
+"""
+from sys import stdout
+from time import sleep
 
 from datetime import datetime
 from psutil import disk_usage, sensors_battery
 from psutil._common import bytes2human
-from socket import gethostname, gethostbyname
-from subprocess import check_output
-from sys import stdout
-from time import sleep
+#from socket import gethostname, gethostbyname
+#from subprocess import check_output
 
 def write(data):
     stdout.write('%s\n' % data)
