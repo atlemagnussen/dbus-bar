@@ -10,6 +10,8 @@ import psutil
 from helpers import status_state
 
 DISK_UCODE = u"\U0001F5AB"
+CPU_UCODE = "☢"
+RAM_UCODE = "🐏"
 
 STATE = status_state.Status.get_instance()
 
@@ -20,14 +22,19 @@ def format_b_to_gb(numb):
 
 def get_state():
     """init"""
-    cpu = floor(psutil.cpu_percent())
+    cpu_pct = psutil.cpu_percent()
+    cpu_state = f'{CPU_UCODE}{floor(cpu_pct)}%'
+
     virt_mem = psutil.virtual_memory()
-    total = format_b_to_gb(virt_mem.total)
-    used = format_b_to_gb(virt_mem.used)
-    disk = psutil.disk_usage('/').percent
-    cpu_mem_state = f'{cpu}% {used}/{total}gb {DISK_UCODE}{disk}%'
+    mem_pct = (virt_mem.used/virt_mem.total) * 100
+    mem_state = f'{RAM_UCODE}{floor(mem_pct)}%'
+
+    disk_pct = psutil.disk_usage('/').percent
+    disk_state = f'{DISK_UCODE}{floor(disk_pct)}%'
+
+    cpu_mem_state = f'{cpu_state} {mem_state} {disk_state}'
     return cpu_mem_state
-        
+
 class CpuRamDisk(Thread):
     """time class"""
     def __init__(self):
