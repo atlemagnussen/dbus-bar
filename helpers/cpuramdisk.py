@@ -9,7 +9,7 @@ from math import floor
 import psutil
 from helpers import status_state
 
-DISK_UCODE = u"\U0001F4BE"
+DISK_UCODE = u"\U0001F5AB"
 
 STATE = status_state.Status.get_instance()
 
