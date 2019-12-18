@@ -1,15 +1,16 @@
 """upower dbus"""
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from time import sleep
 from threading import Thread
 import dbus
-from helpers import status_state
+from helpers import status_state, colors
 
 STATE = status_state.Status.get_instance()
 MAIN_NAME = "org.freedesktop.UPower"
 DD_PATH = "/org/freedesktop/UPower/devices/DisplayDevice"
 DBUS_PROPS = "org.freedesktop.DBus.Properties"
+POWER_UCODE = u"\U0001F5F2"
+
 class Power(Thread):
     """power class"""
     def __init__(self):
@@ -41,13 +42,15 @@ def get_state():
         charge = '+'
     else:
         charge = '-'
-    return f'{perc}%{charge}'
+    state_text = f'{POWER_UCODE}{perc}%{charge}'
+    if perc < 20:
+        state_text = f'{colors.WARN}{state_text}!{colors.RESET}'
+    elif perc < 10:
+        state_text = f'{colors.FAIL}{state_text} LOW POWER!!! {colors.RESET}'
+    return state_text
 
 def print_all_props(props):
     """print props"""
     for prop in props:
         val = str(props.get(prop))
         print(f'{prop}={val}')
-
-if __name__ == "__main__":
-    print(f'state={get_state()}')

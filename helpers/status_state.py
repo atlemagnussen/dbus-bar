@@ -6,8 +6,6 @@ from helpers import config_bar
 
 VOL_UCODE = u"\U0001F50A"
 VOL_MUTED_UCODE = u"\U0001F507"
-NETWORK_UCODE = u"\U0001F5A7"
-POWER_UCODE = u"\U0001F5F2"
 #TIME_UCODE = u"\U0001F550"
 TIME_UCODE = "⌚"
 
@@ -34,14 +32,13 @@ class Status:
         self.__vol = 0
         self.__vol_muted = False
         self.__network = 'disconnected'
-        self.__time__ = ''
-        self.__bat__ = '00%-'
-        self.__cpu_ram_disk__ = ''
+        self.__time = ''
+        self.__bat = '00%-'
+        self.__cpu_ram_disk = ''
 
         if Status.__instance is not None:
             raise Exception("This class is a singleton!")
-        else:
-            Status.__instance = self
+        Status.__instance = self
 
     def set_vol(self, vol):
         """setter vol"""
@@ -70,35 +67,35 @@ class Status:
 
     def state_net(self):
         """state net"""
-        return f'{NETWORK_UCODE}{self.__network}'
+        return self.__network
 
     def set_time(self, time):
         """time stat"""
-        self.__time__ = time
+        self.__time = time
         self.set_bar()
 
     def set_bat(self, bat):
         """bat set"""
-        self.__bat__ = bat
+        self.__bat = bat
         self.set_bar()
 
     def state_time(self):
         """time"""
-        return f'{TIME_UCODE}{self.__time__}'
+        return f'{TIME_UCODE}{self.__time}'
 
     def state_bat(self):
         """bat"""
-        if self.__bat__ is None:
+        if self.__bat is None:
             return None
-        return f'{POWER_UCODE}{self.__bat__}'
+        return self.__bat
 
     def set_cpu_ram_disk_state(self, cpu_ram_disk):
         """cpu_and_mem"""
-        self.__cpu_ram_disk__ = cpu_ram_disk
+        self.__cpu_ram_disk = cpu_ram_disk
 
     def cpu_ram_disk_state(self):
         """cpu_ram_mem_state"""
-        return self.__cpu_ram_disk__
+        return self.__cpu_ram_disk
 
     def state(self):
         """get_full_state"""

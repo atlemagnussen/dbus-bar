@@ -2,9 +2,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import dbus
-from helpers import status_state
+from helpers import status_state, colors
 
 STATE = status_state.Status.get_instance()
+NETWORK_UCODE = u"\U0001F5A7"
 
 def init():
     """init network"""
@@ -15,11 +16,12 @@ def init():
 def get_network_state(code):
     """network state"""
     if code <= 20:
-        network_state = "disconnected"
+        network_state = f"{colors.FAIL}disconnected{colors.RESET}"
     elif 20 < code < 70:
-        network_state = "connecting"
+        network_state = f"{colors.WARN}connecting{colors.RESET}"
     else:
         network_state = get_state()
+    network_state = f'{NETWORK_UCODE}{network_state}'
     STATE.set_network(network_state)
 
 def get_bus_object(name, path):

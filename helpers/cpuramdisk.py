@@ -7,11 +7,11 @@ from threading import Thread
 from time import sleep
 from math import floor
 import psutil
-from helpers import status_state
+from helpers import status_state, colors
 
 DISK_UCODE = u"\U0001F5AB"
 CPU_UCODE = "☢"
-RAM_UCODE = "🐏"
+RAM_UCODE = u"\U0001F5A5"
 
 STATE = status_state.Status.get_instance()
 
@@ -20,17 +20,25 @@ def format_b_to_gb(numb):
     numgb = numb / 1024 / 1024 / 1024
     return round(numgb, 1)
 
+def pct_color_text(pct, text):
+    """pct to color"""
+    if pct > 80:
+        return f"{colors.FAIL}{text}{colors.RESET}"
+    if pct > 50:
+        return f"{colors.WARN}{text}{colors.RESET}"
+    return text
+
 def get_state():
     """init"""
     cpu_pct = psutil.cpu_percent()
-    cpu_state = f'{CPU_UCODE}{floor(cpu_pct)}%'
+    cpu_state = pct_color_text(cpu_pct, f'{CPU_UCODE}{floor(cpu_pct)}%')
 
     virt_mem = psutil.virtual_memory()
     mem_pct = (virt_mem.used/virt_mem.total) * 100
-    mem_state = f'{RAM_UCODE}{floor(mem_pct)}%'
+    mem_state = pct_color_text(mem_pct, f'{RAM_UCODE}{floor(mem_pct)}%')
 
     disk_pct = psutil.disk_usage('/').percent
-    disk_state = f'{DISK_UCODE}{floor(disk_pct)}%'
+    disk_state = pct_color_text(disk_pct, f'{DISK_UCODE}{floor(disk_pct)}%')
 
     cpu_mem_state = f'{cpu_state} {mem_state} {disk_state}'
     return cpu_mem_state
