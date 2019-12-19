@@ -2,7 +2,7 @@
 
 *Still kind of beta*  
 
-Works for [dwm](https://dwm.suckless.org/) and [i3](https://i3wm.org/) and [sway](https://swaywm.org/)
+Works for [dwm](https://dwm.suckless.org/) and [i3](https://i3wm.org/) / [sway](https://swaywm.org/)
 
 ![demo picture of dbus-bar](https://storage.googleapis.com/atle-static/pics/dbusbar-v.0.2.jpg)
 
