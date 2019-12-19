@@ -4,7 +4,7 @@
 
 Works for [dwm](https://dwm.suckless.org/) and [i3](https://i3wm.org/) and [sway](https://swaywm.org/)
 
-![demo gif of dbus-bar](https://storage.googleapis.com/atle-static/dbus-bar-v.0.1.gif)
+![demo picture of dbus-bar](https://storage.googleapis.com/atle-static/pics/dbusbar-v.0.2.jpg)
 
 ## config
 See [dbusbar.yml](https://github.com/atlemagnussen/dbus-bar/blob/master/dbusbar.yml) in this repository, copy into `~/.config/dbusbar.yml` if you want to start using dbus-bar and need to change behavior.  
