@@ -3,14 +3,16 @@
 """
 config
 """
-import os
+from pathlib import Path
 import yaml
 
-CWD = os.getcwd()
-CFG_PATH = '/home/atle/.config/dbusbar.yml'
+
+HOME_PATH = str(Path.home())
+CFG_PATH = f'{HOME_PATH}/.config/dbusbar.yml'
 
 DEFAULT_CONFIG = dict([
-    ('writeToXRoot', False)
+    ('writeToXRoot', False),
+    ('useColors', False)
 ])
 
 def get_config():
