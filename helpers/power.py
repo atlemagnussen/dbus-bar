@@ -28,6 +28,10 @@ class Power(Thread):
             STATE.set_bat(bat)
             sleep(10)
 
+    def stop(self):
+        """stop"""
+        self.__counter_none__ = 5
+
 def get_state():
     """battery state"""
     sys_bus = dbus.SystemBus()

@@ -26,12 +26,17 @@ class PulseAudio(Thread):
         self.name = "Pulse Init thread"
         self.daemon = True
         self.__is_initialized__ = False
+        self.__running__ = True
 
     def run(self):
         """run"""
-        while self.__is_initialized__ is not True:
+        while self.__is_initialized__ is not True and self.__running__:
             self.__is_initialized__ = self.init()
             sleep(10)
+
+    def stop(self):
+        """stop"""
+        self.__running__ = False
 
     def init(self):
         """init"""

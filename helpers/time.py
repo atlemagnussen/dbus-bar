@@ -13,10 +13,15 @@ class Time(Thread):
         Thread.__init__(self)
         self.name = "Time thread"
         self.daemon = True
+        self.__running__ = True
 
     def run(self):
         """init"""
-        while True:
+        while self.__running__:
             time_state = datetime.now().strftime("%Y-%m-%d %H:%M")
             STATE.set_time(time_state)
             sleep(5)
+
+    def stop(self):
+        """stop"""
+        self.__running__ = False

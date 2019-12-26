@@ -49,13 +49,17 @@ class CpuRamDisk(Thread):
         Thread.__init__(self)
         self.name = "CPU and memory thread"
         self.daemon = True
+        self.__running__ = True
 
     def run(self):
         """init"""
-        while True:
+        while self.__running__:
             current_state = get_state()
             STATE.set_cpu_ram_disk_state(current_state)
             sleep(5)
+    def stop(self):
+        """stop"""
+        self.__running__ = False
 
 if __name__ == "__main__":
     print(get_state())
