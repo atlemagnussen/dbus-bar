@@ -13,6 +13,7 @@ def init():
     loop = GLib.MainLoop()
 
     pulse_audio = pulse.PulseAudio()
+    pulse_audio.start()
     # pulse_audio.initial_volume()
     networkmanager.init()
     time_thread = time.Time()

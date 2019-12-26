@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 """Testing dbus with pulseaudio"""
 import os
+from time import sleep
 import dbus
-# from pulsectl import Pulse
 from helpers import status_state
+from threading import Thread
 
 SERVICE = 'org.PulseAudio1'
 LPATH = '/org/pulseaudio/server_lookup1'
@@ -18,61 +19,63 @@ MUTESIG = 'MuteUpdated'
 
 STATE = status_state.Status.get_instance()
 
-class PulseAudio:
+class PulseAudio(Thread):
     """pulse class"""
     def __init__(self):
-        self.pulse_bus = dbus.connection.Connection(self.pulse_bus_address())
+        Thread.__init__(self)
+        self.name = "Pulse Init thread"
+        self.daemon = True
+        self.__is_initialized__ = False
+
+    def run(self):
+        """run"""
+        while self.__is_initialized__ is not True:
+            self.__is_initialized__ = self.init()
+            sleep(10)
+
+    def init(self):
+        """init"""
         try:
             print("init pulse audio dbus")
+            self.pulse_bus = dbus.connection.Connection(pulse_bus_address())
             pulse_core = self.pulse_bus.get_object(object_path='/org/pulseaudio/core1')
             pulse_core.ListenForSignal(MAIN + '.' + STATSIG, dbus.Array(signature='o'), dbus_interface=IFACE)
             pulse_core.ListenForSignal(MAIN + '.' + VOLSIG, dbus.Array(signature='o'), dbus_interface=IFACE)
             pulse_core.ListenForSignal(MAIN + '.' + MUTESIG, dbus.Array(signature='o'), dbus_interface=IFACE)
 
-            self.pulse_bus.add_signal_receiver(self.sig_handler_state, 'StateUpdated')
-            self.pulse_bus.add_signal_receiver(self.sig_handler_vol, 'VolumeUpdated')
-            self.pulse_bus.add_signal_receiver(self.sig_handler_mute, 'MuteUpdated')
+            self.pulse_bus.add_signal_receiver(sig_handler_state, 'StateUpdated')
+            self.pulse_bus.add_signal_receiver(sig_handler_vol, 'VolumeUpdated')
+            self.pulse_bus.add_signal_receiver(sig_handler_mute, 'MuteUpdated')
+            return True
         except Exception as ex:
-            print(ex)
+            return False
 
-    # def initial_volume(self):
-    #    """initial volume and mute"""
-    #    pulse_ctl = Pulse()
-    #    sinks = pulse_ctl.sink_list()
-    #    sink = sinks[0]
+def pulse_bus_address():
+    """address"""
+    if 'PULSE_DBUS_SERVER' in os.environ:
+        address = os.environ['PULSE_DBUS_SERVER']
+    else:
+        bus = dbus.SessionBus()
+        server_lookup = bus.get_object(SERVICE, LPATH)
+        address = server_lookup.Get(LNAME, "Address", dbus_interface=FDPROP)
 
-    #    STATE.set_vol_muted(sink.mute)
-    #    STATE.set_vol(round(sink.volume.value_flat * 100))
+    return address
 
-    def pulse_bus_address(self):
-        """address"""
-        if 'PULSE_DBUS_SERVER' in os.environ:
-            address = os.environ['PULSE_DBUS_SERVER']
-        else:
-            bus = dbus.SessionBus()
-            server_lookup = bus.get_object(SERVICE, LPATH)
-            address = server_lookup.Get(LNAME, "Address", dbus_interface=FDPROP)
+def sig_handler_state(state):
+    """handler"""
+    print("State changed to %s" % state)
+    if state == 0:
+        print("Pulseaudio running.")
+    elif state == 1:
+        print("Pulseaudio idle.")
+    elif state == 2:
+        print("Pulseaudio suspended")
 
-        return address
+def sig_handler_vol(vol):
+    """handler"""
+    perc = (vol[0] / 65536) * 100
+    STATE.set_vol(round(perc))
 
-    def sig_handler_state(self, state):
-        """handler"""
-        print("State changed to %s" % state)
-        if state == 0:
-            print("Pulseaudio running.")
-        elif state == 1:
-            print("Pulseaudio idle.")
-        elif state == 2:
-            print("Pulseaudio suspended")
-
-    def sig_handler_vol(self, vol):
-        """handler"""
-        perc = (vol[0] / 65536) * 100
-        STATE.set_vol(round(perc))
-
-    def sig_handler_mute(self, muted):
-        """handler"""
-        STATE.set_vol_muted(muted)
-
-# if __name__ == "__main__":
-#    init()
+def sig_handler_mute(muted):
+    """handler"""
+    STATE.set_vol_muted(muted)
