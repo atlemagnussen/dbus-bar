@@ -15,7 +15,7 @@ class Power(Thread):
     """power class"""
     def __init__(self):
         Thread.__init__(self)
-        self.name = "Time thread"
+        self.name = "Power thread"
         self.daemon = True
         self.__counter_none__ = 0
 

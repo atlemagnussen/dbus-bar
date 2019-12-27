@@ -44,7 +44,7 @@ def get_state():
     return cpu_mem_state
 
 class CpuRamDisk(Thread):
-    """time class"""
+    """crd class"""
     def __init__(self):
         Thread.__init__(self)
         self.name = "CPU and memory thread"
