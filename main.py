@@ -9,11 +9,12 @@ threads = []
 loop = None
 
 def signal_handler(signal, frame):
-    """interrup signal handler"""
-    print("interrupt signal was received")
+    """signal handler"""
+    print(f"{signal} signal was received")
     stop()
 
 signal.signal(signal.SIGINT, signal_handler)
+signal.signal(signal.SIGTERM, signal_handler)
 
 def init():
     """init loop"""
