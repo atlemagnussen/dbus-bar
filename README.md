@@ -14,6 +14,13 @@ I.e. to use it with `dwm` you must set
 writeToXroot: true
 ```
 
+Config for i3/sway:
+```
+bar {
+    status_command ~/dev/dbus-bar/main.py;
+}
+```
+
 - Need Python3.5+
 - Not everything is done with dbus, but as much as possible
 
