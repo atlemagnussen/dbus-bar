@@ -12,6 +12,7 @@ from helpers import status_state, colors
 DISK_UCODE = u"\U0001F5AB"
 CPU_UCODE = "☢"
 RAM_UCODE = u"\U0001F5A5"
+DEGREE_UCODE = u"\u2103"
 
 STATE = status_state.Status.get_instance()
 
@@ -32,6 +33,10 @@ def get_state():
     """init"""
     cpu_pct = psutil.cpu_percent()
     cpu_state = pct_color_text(cpu_pct, f'{CPU_UCODE}{floor(cpu_pct)}%')
+
+    temps = psutil.sensors_temperatures()
+    cpu_temp = temps['coretemp'][0].current
+    cpu_state = f'{cpu_state} {floor(cpu_temp)}{DEGREE_UCODE}'
 
     virt_mem = psutil.virtual_memory()
     mem_pct = (virt_mem.used/virt_mem.total) * 100
