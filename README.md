@@ -34,8 +34,18 @@ Via `Network manager` dbus interface: immediately responds to connectivity chang
 ### Power
 Runs a thread and loop. Gets battery % and charging state via `Upower` dbus interface: If there is no battery the info will not show and the thread will exit.
 
+If you don't have these you need to install them. Though you probably have PulseAudio, if not it might take some more work in addition to installing it. For this you can use `pavucontrol`
+
 ```sh
+#arch
+sudo pacman -S pulseaudio
 sudo pacman -S upower
+sudo pacman -S networkmanager
+
+#debian
+sudo apt install pulseaudio
+sudo apt install upower
+sudo apt install network-manager
 ```
 
 ### Time and date
@@ -48,8 +58,21 @@ Runs a thread that reads those numbers via `psutil`
 
 ### sys dependencies
 ```sh
-sudo pacman -S python-dbus  
-sudo pacman -S python-gobject  
+#arch
+sudo pacman -S python-dbus
+sudo pacman -S python-gobject
+sudo pacman -S python-psutil
+sudo pacman -S python-yaml
+
+#debian
+sudo apt install pyhton3-dbus
+sudo apt install python3-gi
+sudo apt install python3-psutil
+sudo apt install python3-yaml
+```
+Not all debian based flavours have got the version 5.1 of `pyYAML` which is required. So install it with pip:
+```sh
+pip3 install -U pyYAML
 ```
 
 ### venv for development

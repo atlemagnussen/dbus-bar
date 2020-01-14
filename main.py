@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """doc string for dbus-bar for dwm"""
 # -*- coding: utf-8 -*-
 import signal
