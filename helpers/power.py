@@ -47,10 +47,10 @@ def get_state():
     else:
         charge = '-'
     state_text = f'{POWER_UCODE}{perc}%{charge}'
-    if perc < 20:
-        state_text = f'{colors.WARN}{state_text}!{colors.RESET}'
+    if 10 < perc < 20:
+        state_text = f'{colors.WARN}{state_text} time to charge!{colors.RESET}'
     elif perc < 10:
-        state_text = f'{colors.FAIL}{state_text} LOW POWER!!! {colors.RESET}'
+        state_text = f'!!!{colors.FAIL}{state_text} LOW POWER!!! {colors.RESET}'
     return state_text
 
 def print_all_props(props):
