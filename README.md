@@ -65,7 +65,7 @@ sudo pacman -S python-psutil
 sudo pacman -S python-yaml
 
 #debian
-sudo apt install pyhton3-dbus
+sudo apt install python3-dbus
 sudo apt install python3-gi
 sudo apt install python3-psutil
 sudo apt install python3-yaml
