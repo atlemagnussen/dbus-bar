@@ -8,9 +8,9 @@ from helpers import networkmanager, pulse, time, power, cpuramdisk
 threads = []
 loop = None
 
-def signal_handler(signal, frame):
+def signal_handler(sign, frame):
     """signal handler"""
-    print(f"{signal} signal was received")
+    print(f"{sign} signal was received on frame {frame}")
     stop()
 
 signal.signal(signal.SIGINT, signal_handler)

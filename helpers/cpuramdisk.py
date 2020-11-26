@@ -39,7 +39,7 @@ def get_state():
         cpu_temp = temps['coretemp'][0].current
         cpu_state = f'{cpu_state} {floor(cpu_temp)}{DEGREE_UCODE}'
     except Exception:
-        cpu_temp = f'n/a'
+        cpu_temp = 'n/a'
 
     virt_mem = psutil.virtual_memory()
     mem_pct = (virt_mem.used/virt_mem.total) * 100
