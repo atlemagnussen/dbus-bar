@@ -55,7 +55,8 @@ sudo pkg install upower
 Runs a thread and loop that updates time and date stamp
 
 ### CPU, RAM and DISK percentage in use
-Runs a thread that reads those numbers via `psutil`
+Runs a thread that reads those numbers via `psutil`  
+For FreeBSD you need to load coretemp module by adding `coretemp_load="YES"` into `/boot/loader.conf`
 
 ## python
 
