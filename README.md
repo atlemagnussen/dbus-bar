@@ -46,6 +46,9 @@ sudo pacman -S networkmanager
 sudo apt install pulseaudio
 sudo apt install upower
 sudo apt install network-manager
+
+#FreeBSD
+sudo pkg install upower
 ```
 
 ### Time and date
@@ -69,6 +72,12 @@ sudo apt install python3-dbus
 sudo apt install python3-gi
 sudo apt install python3-psutil
 sudo apt install python3-yaml
+
+#FreeBSD
+sudo pkg install py37-dbus
+sudo pkg install py37-gobject3
+sudo pkg install py37-psutil
+sudo pkg install py37-yaml
 ```
 Not all debian based flavours have got the version 5.1 of `pyYAML` which is required. So install it with pip:
 ```sh

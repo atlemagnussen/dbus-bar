@@ -1,3 +1,5 @@
 env/
 *.pyc
 config.yml
+
+#.vscode/settings.json
